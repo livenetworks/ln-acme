@@ -1,0 +1,28 @@
+:root {
+	--resizerSize: 3px;
+	--resizerColor: #aaa;
+	--resizerHoverColor: #666;
+}
+
+[ln-resizer] {
+	background-color: var(--resizerColor);
+	position: absolute;
+	margin-left: -10px;
+	margin-top: -10px;
+}
+
+[ln-resizer]:hover {
+	background-color: var(--resizerHoverColor);
+}
+
+[ln-resizer="ew"] {
+	width: var(--resizerSize);
+	height: 100%;
+	cursor: ew-resize;
+}
+
+[ln-resizer="ns"] {
+	width: 100%;
+	height: var(--resizerSize);
+	cursor: ns-resize;
+}

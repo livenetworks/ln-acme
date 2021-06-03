@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="default">
+	<meta name="mobile-web-app-capable" content="yes">
+	<meta name="HandheldFriendly" content="True">
+	<meta name="MobileOptimized" content="320">
+	<meta name="format-detection" content="telephone=no">
+	<meta name="title" content="LN GUI">
+
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link rel="preload" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+
+	<title>Live Networks - GUI</title>
+
+	<link rel="stylesheet" type="text/css" href="../src/css/reset.css">
+	<link rel="stylesheet" type="text/css" href="../src/base/base.css">
+	<link rel="stylesheet" type="text/css" href="../src/css/cs.css">
+
+	<link rel="stylesheet" type="text/css" href="../src/box/box.css">
+	<link rel="stylesheet" type="text/css" href="../src/resizer/resizer.css">
+	<link rel="stylesheet" type="text/css" href="../src/breadcrumbs/breadcrumbs.css">
+
+	<link rel="stylesheet" type="text/css" href="../src/header/header.css">
+	<link rel="stylesheet" type="text/css" href="../src/main/main.css">
+	<link rel="stylesheet" type="text/css" href="../src/form/form.css">
+	<link rel="stylesheet" type="text/css" href="../src/table/table.css">
+	<link rel="stylesheet" type="text/css" href="../src/balloon/balloon.css">
+
+	<link rel="stylesheet" type="text/css" href="../src/base/footer.css">
+	<link rel="stylesheet" type="text/css" href="../src/aside/aside.css">
+	<link rel="stylesheet" type="text/css" href="../src/css/nav.css">
+	<link rel="stylesheet" type="text/css" href="../src/css/app.css">
+	<link rel="stylesheet" type="text/css" href="../src/base/icons/icons.css">
+
+
+	<link rel="stylesheet" type="text/css" href="../src/base/ln.css">
+
+
+	<link rel="stylesheet" type="text/css" href="style.css">
+
+	<script src="../src/resizer/resizer.js" type="text/javascript" defer></script>
+	<script src="../src/box/box.js" type="text/javascript" defer></script>
+	
+<!-- 
+	<link rel="preload" href="/static/quickref.6d12f82e9b23fa665c6c.chunk.js" as="script"  />
+	<link rel="preload" href="/static/4.a0700f24d468995b2fe3.css" as="style"  />
+
+	<script src="/static/vendors-bundle.d7344bc686df8d11ede6.chunk.js" defer></script>
+	<script src="/static/bundle.5dc0dbeb6f32952d7ccc.js" defer></script> -->
+
+	<!-- 
+	<link rel="shortcut icon" href="/static/assets/favicon.ico" type="image/x-icon">
+	<link rel="apple-touch-icon" sizes="57x57" href="/static/assets/apple-icon-57x57.png">
+	<link rel="apple-touch-icon" sizes="60x60" href="/static/assets/apple-icon-60x60.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="/static/assets/apple-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="/static/assets/apple-icon-76x76.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="/static/assets/apple-icon-114x114.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="/static/assets/apple-icon-120x120.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="/static/assets/apple-icon-144x144.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="/static/assets/apple-icon-152x152.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="/static/assets/apple-icon-180x180.png">
+	<link rel="icon" type="image/png" href="/static/assets/favicon-16x16.png" sizes="16x16">
+	<link rel="icon" type="image/png" href="/static/assets/favicon-32x32.png" sizes="32x32">
+	<link rel="icon" type="image/png" href="/static/assets/favicon-96x96.png" sizes="96x96">
+	<link rel="icon" type="image/png" href="/static/assets/android-icon-192x192.png" sizes="192x192">
+
+	<link rel="manifest" href="/static/assets/manifest.webmanifest"> -->
+
+	<link href="https://livenetworks.mk" rel="home" />
+	<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<meta name="author" content="Live Networks">
+
+</head>
+<body ln-layout="auto" class="light">
+	<header ln-header>
+		sdfasf
+
+		<nav class="ln-nav">
+			<ul>
+				<li>
+					<a href="#">Link 1</a>
+				</li>
+				<li>
+					<a href="#">Link 1</a>
+				</li>
+				<li>
+					<a href="#">Link 1</a>
+				</li>
+			</ul>
+		</nav>
+	</header>
+
+
+	<div ln-app>
+		<main ln-main>
+			<nav>
+				<ol ln-breadcrumbs>
+					<li>
+						<a href="#">Link 1</a>
+					</li>
+					<li>
+						<a href="#">Link 1</a>
+					</li>
+					<li>
+						<a href="#">Link 1</a>
+					</li>
+				</ol>
+			</nav>
+			
+			<h1>Page Title</h1>
+
+			<section>
+
+				<form action="#" method="POST"  ln-box>
+
+					<fieldset ln-box-body>
+						<legend>Personal Details</legend>
+						
+						<div ln-inputControl>
+							<div ln-input>
+								<input type="text" name="name" id="name" placeholder=" " required />
+								<label for="name">First Name:</label>
+							</div>
+							<ul ln-input-errors>
+								<li aria-label="First Name should be more than 5 characters" data-balloon-pos="down">
+									Minimum length 5
+								</li>
+							</ul>
+						</div>
+
+						<div ln-inputControl>
+							<div ln-input>
+								<input type="text" name="middleName" id="middleName" placeholder=" " />
+								<label for="middleName">Middle Name:</label>
+							</div>
+							<ul ln-input-errors>
+								<li aria-label="Field 1 should be more than 5 characters" data-balloon-pos="down">
+									Minimum length 5
+								</li>
+							</ul>
+						</div>
+
+						<div ln-inputControl>
+							<div ln-input>
+								<input type="text" name="surname" id="surname" placeholder=" " required />
+								<label for="surname">Last Name:</label>
+							</div>
+							<ul ln-input-errors>
+								<li aria-label="Last Name should be more than 5 characters" data-balloon-pos="down">
+									Minimum length 5
+								</li>
+							</ul>
+						</div>
+
+						<div ln-inputControl>
+							<div ln-input>
+								<input type="text" name="field1" id="field1" placeholder=" " />
+								<label for="field1">Field 1:</label>
+							</div>
+							<ul ln-input-errors>
+								<li aria-label="Field 1 should be more than 5 characters" data-balloon-pos="down">
+									Minimum length 5
+								</li>
+							</ul>
+						</div>
+
+					</fieldset>
+					<footer>
+						<button disabled="disabled">Disabled</button>
+						<button>Save</button>
+					</footer>
+
+				</form>
+
+			</section>
+
+		</main>
+
+		<aside ln-aside>
+			<div ln-box>
+				<header>
+					Box Title  1
+
+					<ul class="lnActions">
+						<li><button type="button" ln-box-action="collapse" aria-label="Collapse" data-balloon-pos="up">expand_less</button></li>
+						<li><button type="button" ln-box-action="expand" aria-label="Expand" data-balloon-pos="up">expand_more</button></li>
+						<li><button type="button" ln-close="formElementsBox" aria-label="Remove Widget" data-balloon-pos="up">close</button></li>
+					</ul>
+				</header>
+				<main ln-box-body>
+					<table class="fixedHeader">
+						<thead>
+							<tr>
+								<th>The table header</th>
+								<th>The table header</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>The table body</td>
+								<td>with two columns</td>
+							</tr>
+							<tr>
+								<td>The table body</td>
+								<td>with two columns</td>
+							</tr>
+							<tr>
+								<td>The table body</td>
+								<td>with two columns</td>
+							</tr>
+							<tr>
+								<td>The table body</td>
+								<td>with two columns</td>
+							</tr>
+							<tr>
+								<td>The table body</td>
+								<td>with two columns</td>
+							</tr>
+							<tr>
+								<td>The table body</td>
+								<td>with two columns</td>
+							</tr>
+							<tr>
+								<td>The table body</td>
+								<td>with two columns</td>
+							</tr>
+							<tr>
+								<td>The table body</td>
+								<td>with two columns</td>
+							</tr>
+							<tr>
+								<td>The table body</td>
+								<td>with two columns</td>
+							</tr>
+							<tr>
+								<td>The table body</td>
+								<td>with two columns</td>
+							</tr>
+							<tr>
+								<td>The table body</td>
+								<td>with two columns</td>
+							</tr>
+							<tr>
+								<td>The table body</td>
+								<td>with two columns</td>
+							</tr>
+							<tr>
+								<td>The table body</td>
+								<td>with two columns</td>
+							</tr>
+							<tr>
+								<td>The table body</td>
+								<td>with two columns</td>
+							</tr>
+							<tr>
+								<td>The table body</td>
+								<td>with two columns</td>
+							</tr>
+							<tr>
+								<td>The table body</td>
+								<td>with two columns</td>
+							</tr>
+							<tr>
+								<td>The table body</td>
+								<td>with two columns</td>
+							</tr>
+							<tr>
+								<td>The table body</td>
+								<td>with two columns</td>
+							</tr>
+						</tbody>
+					</table>
+				</main>
+			</div>
+
+			<div ln-box id="box2">
+				<header>
+					Box Title  1
+				</header>
+				<main ln-box-body>
+					<table>
+						<thead>
+							<tr>
+								<th>The table header</th>
+								<th>The table header</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>The table body</td>
+								<td>with two columns</td>
+							</tr>
+							<tr>
+								<td>The table body</td>
+								<td>with two columns</td>
+							</tr>
+							<tr>
+								<td>The table body</td>
+								<td>with two columns</td>
+							</tr>
+							<tr>
+								<td>The table body</td>
+								<td>with two columns</td>
+							</tr>
+							<tr>
+								<td>The table body</td>
+								<td>with two columns</td>
+							</tr>
+							<tr>
+								<td>The table body</td>
+								<td>with two columns</td>
+							</tr>
+							<tr>
+								<td>The table body</td>
+								<td>with two columns</td>
+							</tr>
+							<tr>
+								<td>The table body</td>
+								<td>with two columns</td>
+							</tr>
+							<tr>
+								<td>The table body</td>
+								<td>with two columns</td>
+							</tr>
+							<tr>
+								<td>The table body</td>
+								<td>with two columns</td>
+							</tr>
+							<tr>
+								<td>The table body</td>
+								<td>with two columns</td>
+							</tr>
+							<tr>
+								<td>The table body</td>
+								<td>with two columns</td>
+							</tr>
+							<tr>
+								<td>The table body</td>
+								<td>with two columns</td>
+							</tr>
+							<tr>
+								<td>The table body</td>
+								<td>with two columns</td>
+							</tr>
+							<tr>
+								<td>The table body</td>
+								<td>with two columns</td>
+							</tr>
+							<tr>
+								<td>The table body</td>
+								<td>with two columns</td>
+							</tr>
+							<tr>
+								<td>The table body</td>
+								<td>with two columns</td>
+							</tr>
+							<tr>
+								<td>The table body</td>
+								<td>with two columns</td>
+							</tr>
+						</tbody>
+					</table>
+				</main>
+			</div>
+
+			<div ln-box>
+				<header>
+					Box Title  1
+				</header>
+				<main ln-box-body>
+					<table>
+						<thead>
+							<tr>
+								<th>The table header</th>
+								<th>The table header</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>The table body</td>
+								<td>with two columns</td>
+							</tr>
+							<tr>
+								<td>The table body</td>
+								<td>with two columns</td>
+							</tr>
+							<tr>
+								<td>The table body</td>
+								<td>with two columns</td>
+							</tr>
+							<tr>
+								<td>The table body</td>
+								<td>with two columns</td>
+							</tr>
+							<tr>
+								<td>The table body</td>
+								<td>with two columns</td>
+							</tr>
+							<tr>
+								<td>The table body</td>
+								<td>with two columns</td>
+							</tr>
+							<tr>
+								<td>The table body</td>
+								<td>with two columns</td>
+							</tr>
+							<tr>
+								<td>The table body</td>
+								<td>with two columns</td>
+							</tr>
+							<tr>
+								<td>The table body</td>
+								<td>with two columns</td>
+							</tr>
+							<tr>
+								<td>The table body</td>
+								<td>with two columns</td>
+							</tr>
+							<tr>
+								<td>The table body</td>
+								<td>with two columns</td>
+							</tr>
+							<tr>
+								<td>The table body</td>
+								<td>with two columns</td>
+							</tr>
+							<tr>
+								<td>The table body</td>
+								<td>with two columns</td>
+							</tr>
+							<tr>
+								<td>The table body</td>
+								<td>with two columns</td>
+							</tr>
+							<tr>
+								<td>The table body</td>
+								<td>with two columns</td>
+							</tr>
+							<tr>
+								<td>The table body</td>
+								<td>with two columns</td>
+							</tr>
+							<tr>
+								<td>The table body</td>
+								<td>with two columns</td>
+							</tr>
+							<tr>
+								<td>The table body</td>
+								<td>with two columns</td>
+							</tr>
+						</tbody>
+					</table>
+				</main>
+			</div>
+
+		</aside>
+	</div>
+
+	<footer ln-footer>
+		<p ln-status>Lorem Ipsum</p>
+		<p class="ln">Developed by <a href="#">Live Networks</a></p>
+	</footer>
+</body>
+</html>
