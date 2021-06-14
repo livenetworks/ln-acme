@@ -11,7 +11,7 @@
 	<meta name="title" content="LN GUI">
 
 	<link rel="preconnect" href="https://fonts.gstatic.com">
-	<link rel="preload" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+	<link rel="preload" href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
 
@@ -23,6 +23,7 @@
 
 	<link rel="stylesheet" type="text/css" href="../src/box/box.css">
 	<link rel="stylesheet" type="text/css" href="../src/resizer/resizer.css">
+	<link rel="stylesheet" type="text/css" href="../src/progress/progress.css">
 	<link rel="stylesheet" type="text/css" href="../src/breadcrumbs/breadcrumbs.css">
 
 	<link rel="stylesheet" type="text/css" href="../src/header/header.css">
@@ -30,6 +31,7 @@
 	<link rel="stylesheet" type="text/css" href="../src/form/form.css">
 	<link rel="stylesheet" type="text/css" href="../src/table/table.css">
 	<link rel="stylesheet" type="text/css" href="../src/balloon/balloon.css">
+	<link rel="stylesheet" type="text/css" href="../src/loader/loader.css">
 
 	<link rel="stylesheet" type="text/css" href="../src/base/footer.css">
 	<link rel="stylesheet" type="text/css" href="../src/aside/aside.css">
@@ -44,6 +46,7 @@
 	<link rel="stylesheet" type="text/css" href="style.css">
 
 	<script src="../src/resizer/resizer.js" type="text/javascript" defer></script>
+	<script src="../src/progress/progress.js" type="text/javascript" defer></script>
 	<script src="../src/box/box.js" type="text/javascript" defer></script>
 	
 <!-- 
@@ -76,7 +79,7 @@
 	<meta name="author" content="Live Networks">
 
 </head>
-<body ln-layout="auto" class="light">
+<body ln-layout="window" class="light disableSelect">
 	<header ln-header>
 		sdfasf
 
@@ -117,6 +120,14 @@
 			<section>
 
 				<form action="#" method="POST"  ln-box>
+
+					<div ln-progress>
+						<div ln-progress="trackable" data-progress-min="100" data-progress-max="200" data-progress-value="130" class="green"></div>
+						<div ln-progress data-progress-min="10" data-progress-max="20" data-progress-value="11" class="red"></div>
+						<div ln-progress data-progress-min="10" data-progress-max="20" data-progress-value="12" class="green"></div>
+						<div ln-progress data-progress-min="10" data-progress-max="20" data-progress-value="11" class="red"></div>
+					</div>
+
 
 					<fieldset ln-box-body>
 						<legend>Personal Details</legend>
@@ -192,7 +203,7 @@
 						<li><button type="button" ln-close="formElementsBox" aria-label="Remove Widget" data-balloon-pos="up">close</button></li>
 					</ul>
 				</header>
-				<main ln-box-body>
+				<main ln-box-body class="enableSelect">
 					<table class="fixedHeader">
 						<thead>
 							<tr>
@@ -465,5 +476,8 @@
 		<p ln-status>Lorem Ipsum</p>
 		<p class="ln">Developed by <a href="#">Live Networks</a></p>
 	</footer>
+
+
+	<!-- <div ln-loader></div> -->
 </body>
 </html>

@@ -1,4 +1,5 @@
 body {
+	font-family: Roboto;
 	background-color: #fff;
 	/* background-image: url('bg.jpg');
 	background-size: cover;
@@ -16,11 +17,4 @@ aside.left {
 [ln-app] {
 	width: 1200px;
 	margin: auto;
-}
-
-[ln-box="collapsed"] [ln-box-action="collapse"] {
-	display: none;
-}
-[ln-box=""] [ln-box-action="expand"] {
-	display: none;
 }

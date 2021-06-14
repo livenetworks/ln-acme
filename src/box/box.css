@@ -1,7 +1,7 @@
 [ln-box] {
 	background-color: rgba(var(--boxColor), .4);
 
-	margin-bottom: 10px;
+	margin-top: 10px;
 	min-height: 39px;
 }
 
@@ -30,13 +30,11 @@
 
 [ln-box] .lnActions {
 	float: right;
+	display: flex;
 }
 
-[ln-box] .lnActions li {
-	display: inline;
-}
-[ln-box] .lnActions li button {
-	margin: 0;
+[ln-box] .lnActions button {
+	margin: 0 2px;
 	padding: 0 5px;
 	line-height: inherit;
 }
@@ -99,3 +97,12 @@
 	display: flex;
 }
 
+
+
+
+[ln-box="collapsed"] [ln-box-action="collapse"] {
+	display: none;
+}
+[ln-box=""] [ln-box-action="expand"] {
+	display: none;
+}

@@ -1,28 +1,41 @@
 :root {
-	--resizerSize: 3px;
+	--resizerSize: 5px;
 	--resizerColor: #aaa;
 	--resizerHoverColor: #666;
 }
 
-[ln-resizer] {
-	background-color: var(--resizerColor);
+[ln-resize] {
 	position: absolute;
-	margin-left: -10px;
-	margin-top: -10px;
+	transition: background-color 0.3s ease-in-out;
+}
+[ln-resize]:hover {
+	background-color: rgba(255, 255, 255, .5);
 }
 
-[ln-resizer]:hover {
-	background-color: var(--resizerHoverColor);
-}
-
-[ln-resizer="ew"] {
+[ln-resize="r"], [ln-resize="l"] {
 	width: var(--resizerSize);
-	height: 100%;
 	cursor: ew-resize;
+	top: 0;
+	bottom: 0;
 }
 
-[ln-resizer="ns"] {
-	width: 100%;
+[ln-resize="t"], [ln-resize="b"] {
 	height: var(--resizerSize);
+	width: 100%;
 	cursor: ns-resize;
+	left: 0;
+	right: 0;
+}
+
+[ln-resize="r"] {
+	right: 0;
+}
+[ln-resize="l"] {
+	left: 0;
+}
+[ln-resize="t"] {
+	top: 0;
+}
+[ln-resize="b"] {
+	bottom: 0;
 }
