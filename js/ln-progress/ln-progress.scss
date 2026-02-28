@@ -1,6 +1,6 @@
 @use '../../scss/config/mixins' as *;
 
-/* Progress Track */
+/* Track — fallback before Shadow DOM attaches */
 [data-ln-progress] {
 	height: var(--spacing-xs);
 	@include w-full;
@@ -8,29 +8,4 @@
 	background-color: var(--color-bg-body);
 	overflow: hidden;
 	@include flex;
-}
-
-/* Progress Bar (inner) */
-[data-ln-progress] > [data-ln-progress] {
-	width: 0;
-	@include transition;
-	border-radius: 0;
-
-	&:last-child {
-		border-top-right-radius: var(--radius-full);
-		border-bottom-right-radius: var(--radius-full);
-	}
-}
-
-/* Color variants */
-[data-ln-progress].green {
-	background-color: var(--color-success);
-}
-
-[data-ln-progress].red {
-	background-color: var(--color-error);
-}
-
-[data-ln-progress].yellow {
-	background-color: var(--color-warning);
 }
