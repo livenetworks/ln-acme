@@ -27,7 +27,7 @@
 			</div>
 			<div class="header-right">
 				<div class="header-actions">
-					<button class="btn btn--secondary" onclick="window.lnToast.enqueue({type:'info', title:'Инфо', message:'Progress bar компонента.'})">
+					<button class="btn btn--secondary" onclick="window.lnToast.enqueue({type:'info', title:'Инфо', message:'Progress bar компонента со Shadow DOM.'})">
 						Test Toast
 					</button>
 				</div>
@@ -90,7 +90,35 @@
 			<!-- Content -->
 			<div class="content">
 					<h1>Progress</h1>
-					<p>Progress bar компонента — визуелен индикатор за напредок. Реактивен: автоматски се ажурира кога атрибутите се менуваат.</p>
+					<p>Progress bar компонента со <strong>Shadow DOM</strong> encapsulation. Реактивен: автоматски се ажурира кога атрибутите се менуваат.</p>
+
+					<!-- Shadow DOM -->
+					<section class="section-card">
+						<header><h3>Shadow DOM</h3></header>
+						<main>
+							<article>
+								<h4>Архитектура</h4>
+								<p>Track елементот (<code>[data-ln-progress]</code> со празна вредност) добива <strong>open shadow root</strong> со <code>&lt;slot&gt;</code>. Bar елементите се проектираат во shadow root преку slot projection.</p>
+							</article>
+							<article>
+								<h4>Што е encapsulated?</h4>
+								<table>
+									<thead><tr><th>Аспект</th><th>Каде живее</th><th>Опис</th></tr></thead>
+									<tbody>
+										<tr><td>Track стилови</td><td>Shadow DOM (<code>:host</code>)</td><td>Ширина, висина, заоблување, позадина</td></tr>
+										<tr><td>Bar стилови</td><td>Shadow DOM (<code>::slotted()</code>)</td><td>Транзиција, заоблување на последен bar, бои</td></tr>
+										<tr><td>CSS токени</td><td>Light DOM (<code>:root</code>)</td><td><code>var(--color-success)</code> итн. поминуваат низ Shadow DOM</td></tr>
+										<tr><td>Bar елементи</td><td>Light DOM (slot projection)</td><td>JS ги манипулира директно — <code>style.width</code></td></tr>
+										<tr><td>Events</td><td>Cross-boundary (<code>composed: true</code>)</td><td><code>ln-progress:change</code> поминува низ shadow boundary</td></tr>
+									</tbody>
+								</table>
+							</article>
+							<article>
+								<h4>Инспектирај во DevTools</h4>
+								<p>Отвори Elements панелот → кликни на <code>[data-ln-progress]</code> track → ќе видиш <code>#shadow-root (open)</code> со <code>&lt;style&gt;</code> и <code>&lt;slot&gt;</code>.</p>
+							</article>
+						</main>
+					</section>
 
 					<!-- Основи -->
 					<section class="section-card">
@@ -99,7 +127,7 @@
 							<table>
 								<thead><tr><th>Атрибут</th><th>На елемент</th><th>Опис</th></tr></thead>
 								<tbody>
-									<tr><td><code>data-ln-progress</code></td><td>track (празно)</td><td>Го означува progress track контејнерот</td></tr>
+									<tr><td><code>data-ln-progress</code></td><td>track (празно)</td><td>Го означува progress track контејнерот (добива Shadow DOM)</td></tr>
 									<tr><td><code>data-ln-progress="50"</code></td><td>bar</td><td>Тековна вредност на progress bar</td></tr>
 									<tr><td><code>data-ln-progress-max="100"</code></td><td>bar</td><td>Максимална вредност (default: 100)</td></tr>
 								</tbody>
@@ -203,7 +231,7 @@
 					</section>
 
 					<!-- Реактивност пример -->
-					<section class="section-card">
+					<section class="section-card" id="progress-reactive">
 						<header><h3>Реактивност — напредок се ажурира</h3></header>
 						<main>
 							<ul class="demo-progress-item">
@@ -212,12 +240,79 @@
 									<div id="react-progress" data-ln-progress>
 										<div id="react-bar" data-ln-progress="0" class="green"></div>
 									</div>
-									<button onclick="document.getElementById('react-bar').setAttribute('data-ln-progress', '25')" class="btn btn--sm">25%</button>
-									<button onclick="document.getElementById('react-bar').setAttribute('data-ln-progress', '50')" class="btn btn--sm">50%</button>
-									<button onclick="document.getElementById('react-bar').setAttribute('data-ln-progress', '75')" class="btn btn--sm">75%</button>
-									<button onclick="document.getElementById('react-bar').setAttribute('data-ln-progress', '100')" class="btn btn--sm">100%</button>
+									<nav>
+										<button onclick="document.getElementById('react-bar').setAttribute('data-ln-progress', '0')" class="btn btn--sm btn--secondary">0%</button>
+										<button onclick="document.getElementById('react-bar').setAttribute('data-ln-progress', '25')" class="btn btn--sm">25%</button>
+										<button onclick="document.getElementById('react-bar').setAttribute('data-ln-progress', '50')" class="btn btn--sm">50%</button>
+										<button onclick="document.getElementById('react-bar').setAttribute('data-ln-progress', '75')" class="btn btn--sm">75%</button>
+										<button onclick="document.getElementById('react-bar').setAttribute('data-ln-progress', '100')" class="btn btn--sm">100%</button>
+									</nav>
 								</li>
 							</ul>
+						</main>
+					</section>
+
+					<!-- Events -->
+					<section class="section-card">
+						<header><h3>Events</h3></header>
+						<main>
+							<article>
+								<h4>Настани</h4>
+								<table>
+									<thead><tr><th>Настан</th><th>Cancelable</th><th>Кога</th><th><code>detail</code></th></tr></thead>
+									<tbody>
+										<tr>
+											<td><code>ln-progress:change</code></td>
+											<td>&#10060;</td>
+											<td>При секоја промена на вредноста</td>
+											<td><code>{ target, value, max, percentage }</code></td>
+										</tr>
+									</tbody>
+								</table>
+								<p>Настанот се dispatch-ува со <code>composed: true</code> — поминува низ Shadow DOM boundary и се фаќа со <code>document.addEventListener</code>.</p>
+							</article>
+							<article>
+								<h4>Живо демо</h4>
+								<p>Кликни на копчињата за реактивност погоре — настаните се логираат тука:</p>
+								<output id="progress-event-log">Уште нема настани — промени вредност.</output>
+							</article>
+							<article>
+								<h4>Код</h4>
+								<pre><code>document.addEventListener('ln-progress:change', function(e) {
+    console.log('Прогрес:', e.detail.percentage.toFixed(1) + '%');
+    console.log('Вредност:', e.detail.value, '/', e.detail.max);
+
+    if (e.detail.percentage >= 100) {
+        console.log('Завршено!');
+    }
+});</code></pre>
+							</article>
+						</main>
+					</section>
+
+					<!-- Динамичко додавање -->
+					<section class="section-card">
+						<header><h3>Динамичко додавање (MutationObserver)</h3></header>
+						<main>
+							<article>
+								<p>Progress bar-ови додадени динамички (AJAX, JS) автоматски се иницијализираат — MutationObserver ги детектира и прикачува Shadow DOM на track-от.</p>
+							</article>
+							<article>
+								<h4>Демо</h4>
+								<nav class="demo-actions">
+									<button id="btn-add-dynamic" class="btn btn--secondary">Додади progress bar</button>
+									<button id="btn-clear-dynamic" class="btn btn--sm btn--secondary">Исчисти</button>
+								</nav>
+								<section id="dynamic-container"></section>
+							</article>
+							<article>
+								<h4>Код</h4>
+								<pre><code>// Динамички додаден HTML — Shadow DOM се прикачува автоматски
+var html = '&lt;div data-ln-progress&gt;' +
+    '&lt;div data-ln-progress="65" class="green"&gt;&lt;/div&gt;' +
+    '&lt;/div&gt;';
+container.insertAdjacentHTML('beforeend', html);</code></pre>
+							</article>
 						</main>
 					</section>
 
@@ -240,6 +335,12 @@
     &lt;div data-ln-progress="40" class="green"&gt;&lt;/div&gt;
     &lt;div data-ln-progress="35" class="yellow"&gt;&lt;/div&gt;
     &lt;div data-ln-progress="25" class="red"&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Со ARIA (accessibility) --&gt;
+&lt;div data-ln-progress role="progressbar"
+     aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"&gt;
+    &lt;div data-ln-progress="75" class="green"&gt;&lt;/div&gt;
 &lt;/div&gt;</code></pre>
 						</main>
 					</section>
@@ -260,17 +361,25 @@
 						</main>
 					</section>
 
-					<!-- CSS細節 -->
+					<!-- CSS детали -->
 					<section class="section-card">
 						<header><h3>CSS детали</h3></header>
 						<main>
 							<article>
 								<h4>Заоблени агли</h4>
-								<p>Последниот bar во stacked progress добива заоблен десен агол.</p>
+								<p>Последниот bar во stacked progress добива заоблен десен агол (<code>::slotted(:last-child)</code> во shadow CSS).</p>
 							</article>
 							<article>
 								<h4>Реактивност</h4>
 								<p>Компонентата користи MutationObserver за следење на <code>data-ln-progress</code> и <code>data-ln-progress-max</code> атрибутите.</p>
+							</article>
+							<article>
+								<h4>CSS Custom Properties</h4>
+								<p>Сите бои и димензии доаѓаат од <code>:root</code> токени. CSS custom properties <strong>поминуваат</strong> низ Shadow DOM boundary — темирањето работи без промени.</p>
+								<pre><code>/* Промени го токенот → progress bar автоматски реагира */
+:root {
+    --color-success: #22c55e; /* нова зелена */
+}</code></pre>
 							</article>
 						</main>
 					</section>
@@ -279,13 +388,16 @@
 					<section class="section-card">
 						<header><h3>API</h3></header>
 						<main>
-							<pre><code>// Рачна иницијализација
+							<pre><code>// Рачна иницијализација (Shadow DOM + iframe)
 window.lnProgress(document.body);
 
 // За промена на напредок динамички:
 var bar = document.getElementById('my-bar');
 bar.setAttribute('data-ln-progress', '50');
-bar.setAttribute('data-ln-progress-max', '100');</code></pre>
+bar.setAttribute('data-ln-progress-max', '100');
+
+// Instance API на bar елементот:
+bar.lnProgress; // { dom: HTMLElement }</code></pre>
 						</main>
 					</section>
 			</div>
@@ -298,5 +410,45 @@ bar.setAttribute('data-ln-progress-max', '100');</code></pre>
 		</div>
 		</div><!-- /.app-body -->
 	</div><!-- /.app-wrapper -->
+
+	<script>
+		(function() {
+			// Live event log
+			var log = document.getElementById('progress-event-log');
+			if (!log) return;
+
+			document.addEventListener('ln-progress:change', function(e) {
+				var time = new Date().toLocaleTimeString('mk');
+				var pct = e.detail.percentage.toFixed(1);
+				log.textContent = 'ln-progress:change — ' + pct + '% (value: ' + e.detail.value + '/' + e.detail.max + ') — ' + time;
+			});
+
+			// Dynamic insertion demo
+			var counter = 0;
+			var colors = ['green', 'yellow', 'red'];
+			var container = document.getElementById('dynamic-container');
+			var btnAdd = document.getElementById('btn-add-dynamic');
+			var btnClear = document.getElementById('btn-clear-dynamic');
+
+			if (btnAdd && container) {
+				btnAdd.addEventListener('click', function() {
+					counter++;
+					var value = Math.floor(Math.random() * 80) + 20;
+					var color = colors[counter % colors.length];
+					var html = '<div data-ln-progress>' +
+						'<div data-ln-progress="' + value + '" class="' + color + '"></div>' +
+						'</div>';
+					container.insertAdjacentHTML('beforeend', html);
+				});
+			}
+
+			if (btnClear && container) {
+				btnClear.addEventListener('click', function() {
+					container.innerHTML = '';
+					counter = 0;
+				});
+			}
+		})();
+	</script>
 </body>
 </html>

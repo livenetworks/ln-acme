@@ -7,9 +7,62 @@
 		return;
 	}
 
+	// Shadow DOM styles — CSS tokens pierce shadow boundary
+	var SHADOW_CSS = [
+		':host {',
+		'    display: flex;',
+		'    height: var(--spacing-xs);',
+		'    width: 100%;',
+		'    border-radius: var(--radius-full);',
+		'    background-color: var(--color-bg-body);',
+		'    overflow: hidden;',
+		'}',
+		'::slotted([data-ln-progress]) {',
+		'    width: 0;',
+		'    transition: width 0.2s ease;',
+		'    border-radius: 0;',
+		'}',
+		'::slotted([data-ln-progress]:last-child) {',
+		'    border-top-right-radius: var(--radius-full);',
+		'    border-bottom-right-radius: var(--radius-full);',
+		'}',
+		'::slotted(.green)  { background-color: var(--color-success); }',
+		'::slotted(.red)    { background-color: var(--color-error); }',
+		'::slotted(.yellow) { background-color: var(--color-warning); }',
+	].join('\n');
+
+	// Shared CSSStyleSheet — one instance for all progress tracks
+	var _sharedSheet = null;
+	function _getStyleSheet() {
+		if (_sharedSheet) return _sharedSheet;
+		try {
+			_sharedSheet = new CSSStyleSheet();
+			_sharedSheet.replaceSync(SHADOW_CSS);
+		} catch (e) {
+			_sharedSheet = null;
+		}
+		return _sharedSheet;
+	}
+
 	function _isBar(el) {
 		var val = el.getAttribute('data-ln-progress');
 		return val !== null && val !== '';
+	}
+
+	function _initTrack(el) {
+		if (el.shadowRoot) return;
+
+		var shadow = el.attachShadow({ mode: 'open' });
+		var sheet = _getStyleSheet();
+		if (sheet) {
+			shadow.adoptedStyleSheets = [sheet];
+		} else {
+			var style = document.createElement('style');
+			style.textContent = SHADOW_CSS;
+			shadow.appendChild(style);
+		}
+
+		shadow.appendChild(document.createElement('slot'));
 	}
 
 	function constructor(domRoot) {
@@ -19,6 +72,7 @@
 	function _dispatch(element, eventName, detail) {
 		element.dispatchEvent(new CustomEvent(eventName, {
 			bubbles: true,
+			composed: true,
 			detail: detail || {}
 		}));
 	}
@@ -29,11 +83,17 @@
 		items.forEach(function (item) {
 			if (_isBar(item) && !item[DOM_ATTRIBUTE]) {
 				item[DOM_ATTRIBUTE] = new _constructor(item);
+			} else if (!_isBar(item)) {
+				_initTrack(item);
 			}
 		});
 
-		if (domRoot.hasAttribute && domRoot.hasAttribute('data-ln-progress') && _isBar(domRoot) && !domRoot[DOM_ATTRIBUTE]) {
-			domRoot[DOM_ATTRIBUTE] = new _constructor(domRoot);
+		if (domRoot.hasAttribute && domRoot.hasAttribute('data-ln-progress')) {
+			if (_isBar(domRoot) && !domRoot[DOM_ATTRIBUTE]) {
+				domRoot[DOM_ATTRIBUTE] = new _constructor(domRoot);
+			} else if (!_isBar(domRoot)) {
+				_initTrack(domRoot);
+			}
 		}
 	}
 
