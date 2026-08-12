@@ -1,0 +1,9 @@
+// Core substrate — ln-tabs.
+//
+// UA стилот веќе го крие [hidden], но губи од utility класа
+// (Tailwind `.flex` = 0,1,0). Двата атрибутни селектора се 0,2,0 и
+// бијат безусловно, без !important. Ова е единствената линија CSS
+// што ln-tabs ја бара за да работи.
+[data-ln-panel][hidden] {
+	display: none;
+}

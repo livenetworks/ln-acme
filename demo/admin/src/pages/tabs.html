@@ -25,7 +25,7 @@
 									<strong>Exclusive by Design:</strong> <code>ln-toggle</code> is a binary open/closed primitive. Squeezing tabs into it would require a complex coordinator layer to handle mutual exclusivity. <code>ln-tabs</code> enforces N-way exclusive selection by construction at the root wrapper level.
 								</li>
 								<li>
-									<strong>Accessibility (ARIA):</strong> <code>ln-toggle</code> operates as a disclosure widget using <code>aria-expanded</code>. Tabs represent a standard tablist using <code>aria-selected="true/false"</code> on buttons and <code>aria-hidden="true/false"</code> on panels.
+									<strong>Accessibility (ARIA):</strong> <code>ln-toggle</code> operates as a disclosure widget using <code>aria-expanded</code>. Tabs represent a standard tablist using <code>aria-selected="true/false"</code> on buttons and the native <code>hidden</code> attribute on panels.
 								</li>
 								<li>
 									<strong>Persistence Scopes:</strong> While <code>ln-toggle</code> panels persist individually, tabs use namespace-scoped URL hashes (e.g. <code>#user-tabs:settings&amp;project-tabs:members</code>) or page-level <code>localStorage</code> namespaces to allow multiple independent tabsets to coexist cleanly on a single page.
@@ -48,7 +48,7 @@
     &lt;/nav&gt;
 
     &lt;section data-ln-panel="info"&gt;…&lt;/section&gt;
-    &lt;section data-ln-panel="settings" class="hidden"&gt;…&lt;/section&gt;
+    &lt;section data-ln-panel="settings" hidden&gt;…&lt;/section&gt;
 &lt;/section&gt;</code></pre>
 
 							<h4>The wrapper — <code>[data-ln-tabs]</code></h4>
@@ -58,12 +58,12 @@
 							<p>Each tab button is queried by a deep selector inside the wrapper. The buttons are typically inside a <code>&lt;nav&gt;</code> for grouping, but the position is not enforced. Each button SHOULD be a <code>&lt;button&gt;</code> — the global library style and the <code>tabs-tab</code> mixin assume it. <strong>Inside a form, every tab button needs <code>type="button"</code></strong> to avoid submitting the form on click.</p>
 
 							<h4>The panels — <code>[data-ln-panel="key"]</code></h4>
-							<p>Each panel matches a tab by key. Inactive panels MUST be shipped with <code>class="hidden"</code> so they start hidden — without it, the user sees a flash of all-panels-stacked before the component initializes and collapses to one.</p>
+							<p>Each panel matches a tab by key. Inactive panels MUST be shipped with the <code>hidden</code> attribute so they start hidden — without it, the user sees a flash of all-panels-stacked before the component initializes and collapses to one.</p>
 
 							<p><strong>The trigger type selects the mode.</strong> <code>&lt;a href="#nsKey:key"&gt;</code> triggers run the group in <strong>URL hash</strong> mode (shareable, back/forward aware); <code>&lt;button&gt;</code> triggers run it in <strong>localStorage persist</strong> mode (opt-in via <code>data-ln-persist</code>, URL untouched). Don't mix the two in one group — that falls back to persist with a console warning. Anchor triggers produce shareable URLs (right-click → copy link, middle-click → open in new tab) — the click handler calls <code>event.preventDefault()</code> so the browser's default navigation does not race with the JS state write. Use the boolean form (<code>data-ln-tab</code> with no value) on anchors so the key only appears in <code>href</code>; explicit <code>data-ln-tab="key"</code> works too if you prefer the redundancy. See the live demos below.</p>
 
 							<h4>What state goes where</h4>
-							<p>"Which tab is active?" lives in <code>data-ln-tabs-active</code> on the wrapper. "Is this tab visually selected?" lives in <code>data-active</code> + <code>aria-selected</code> on the button (synced from the wrapper's attribute). "Is this panel visible?" lives in the <code>.hidden</code> class + <code>aria-hidden</code> on the panel (also synced). The component instance carries caches (<code>mapTabs</code>, <code>mapPanels</code>) and configuration (<code>defaultKey</code>, <code>nsKey</code>, <code>autoFocus</code>), but every observable piece of state is on the DOM.</p>
+							<p>"Which tab is active?" lives in <code>data-ln-tabs-active</code> on the wrapper. "Is this tab visually selected?" lives in <code>aria-selected</code> on the button (synced from the wrapper's attribute). "Is this panel visible?" lives in the native <code>hidden</code> attribute on the panel (also synced). The component instance carries caches (<code>mapTabs</code>, <code>mapPanels</code>) and configuration (<code>defaultKey</code>, <code>nsKey</code>, <code>autoFocus</code>), but every observable piece of state is on the DOM.</p>
 						</main>
 					</section>
 
@@ -80,7 +80,7 @@ tabs.setAttribute('data-ln-tabs-active', 'settings');
 // Via hash (when hash sync is enabled)
 location.hash = 'user-tabs:settings';
 location.hash = 'user-tabs:settings&project-tabs:members';</code></pre>
-							<p>All paths produce the same <code>data-active</code> / <code>aria-selected</code> flips on tab buttons, the same <code>.hidden</code> / <code>aria-hidden</code> toggles on panels, the same <code>ln-tabs:change</code> event, the same <code>localStorage</code> write (if persistence is opted in and hash sync is off).</p>
+							<p>All paths produce the same <code>aria-selected</code> flips on tab buttons, the same <code>hidden</code> toggles on panels, the same <code>ln-tabs:change</code> event, the same <code>localStorage</code> write (if persistence is opted in and hash sync is off).</p>
 						</main>
 					</section>
 
@@ -123,12 +123,12 @@ location.hash = 'user-tabs:settings&project-tabs:members';</code></pre>
 									<p>This is the default panel. The wrapper has <code>data-ln-tabs-default="overview"</code>.</p>
 								</section>
 
-								<section data-ln-panel="details" class="hidden">
+								<section data-ln-panel="details" hidden>
 									<h4>Details</h4>
 									<p>Open DevTools and inspect the wrapper element — you'll see <code>data-ln-tabs-active</code> change to <code>"details"</code>.</p>
 								</section>
 
-								<section data-ln-panel="settings" class="hidden">
+								<section data-ln-panel="settings" hidden>
 									<h4>Settings</h4>
 									<p>The URL hash does not change — there is no <code>id</code> or <code>data-ln-tabs-key</code> on the wrapper.</p>
 								</section>
@@ -169,7 +169,7 @@ location.hash = 'user-tabs:settings&project-tabs:members';</code></pre>
 									<p>Hash format: <code>#user-tabs:info</code></p>
 								</section>
 
-								<section data-ln-panel="settings" class="hidden">
+								<section data-ln-panel="settings" hidden>
 									<h4>Settings</h4>
 									<label>
 										Language
@@ -181,7 +181,7 @@ location.hash = 'user-tabs:settings&project-tabs:members';</code></pre>
 									</label>
 								</section>
 
-								<section data-ln-panel="history" class="hidden">
+								<section data-ln-panel="history" hidden>
 									<h4>History</h4>
 									<div class="table-container">
 									<table>
@@ -231,12 +231,12 @@ location.hash = 'user-tabs:settings&project-tabs:members';</code></pre>
 									<pre><code>npm install ln-ashlar</code></pre>
 								</section>
 
-								<section data-ln-panel="usage" class="hidden">
+								<section data-ln-panel="usage" hidden>
 									<h4>Usage</h4>
 									<p>Hash format: <code>#docs-tabs:usage</code>. Bookmark this URL — reload, the Usage tab is active.</p>
 								</section>
 
-								<section data-ln-panel="api" class="hidden">
+								<section data-ln-panel="api" hidden>
 									<h4>API</h4>
 									<p>The component does not generate the <code>href</code> for you — the markup author writes it. The format mirrors the click-driven hash exactly.</p>
 								</section>
@@ -281,7 +281,7 @@ location.hash = 'user-tabs:settings&project-tabs:members';</code></pre>
 									<p>Both sections have a tab key <code>info</code> — no collision because they live in different namespaces.</p>
 								</section>
 
-								<section data-ln-panel="members" class="hidden">
+								<section data-ln-panel="members" hidden>
 									<h4>Members</h4>
 									<div class="table-container">
 									<table>
@@ -294,7 +294,7 @@ location.hash = 'user-tabs:settings&project-tabs:members';</code></pre>
 									</div>
 								</section>
 
-								<section data-ln-panel="info" class="hidden">
+								<section data-ln-panel="info" hidden>
 									<h4>Project Information</h4>
 									<p>The same key <code>info</code> exists in the user-tabs section above — works independently.</p>
 								</section>
@@ -335,12 +335,12 @@ location.hash = 'user-tabs:settings&project-tabs:members';</code></pre>
 									<p>Switch to another tab, reload the page — that tab is restored.</p>
 								</section>
 
-								<section data-ln-panel="security" class="hidden">
+								<section data-ln-panel="security" hidden>
 									<h4>Security</h4>
 									<p>Inspect <code>localStorage</code> in DevTools — you'll see the key <code>ln:tabs:…:settings-tabs</code> with the active key value.</p>
 								</section>
 
-								<section data-ln-panel="notifications" class="hidden">
+								<section data-ln-panel="notifications" hidden>
 									<h4>Notifications</h4>
 									<p>To clear: <code>localStorage.removeItem('ln:tabs:&lt;path&gt;:settings-tabs')</code>.</p>
 								</section>
@@ -402,8 +402,8 @@ document.addEventListener('ln-tabs:change', e =&gt; {
 							<h4>1. Tab buttons inside a form without <code>type="button"</code></h4>
 							<p>The HTML default for <code>&lt;button&gt;</code> is <code>type="submit"</code>. A tab click inside a form will submit the form before the tab handler runs. Every tab button inside a form needs <code>type="button"</code>.</p>
 
-							<h4>2. Forgetting <code>class="hidden"</code> on inactive panels</h4>
-							<p>Until the component initializes, all panels are visible. The user sees a flash of all-panels-stacked before they collapse to one. Ship inactive panels with <code>class="hidden"</code>.</p>
+							<h4>2. Forgetting the <code>hidden</code> attribute on inactive panels</h4>
+							<p>Until the component initializes, all panels are visible. The user sees a flash of all-panels-stacked before they collapse to one. Ship inactive panels with the <code>hidden</code> attribute.</p>
 
 							<h4>3. Mixing hash sync and <code>data-ln-persist</code></h4>
 							<p>The two persistence mechanisms are mutually exclusive. <code>id</code> (or <code>data-ln-tabs-key</code>) enables hash sync, which silently disables <code>data-ln-persist</code>. Pick one.</p>

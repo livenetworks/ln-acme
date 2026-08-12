@@ -13,13 +13,13 @@ In `ln-ashlar`, the core design principle is **orthogonality**. Rather than crea
 3. **Decoupled Binding (HTML)**: Tab triggers and panels are paired purely by string keys (`data-ln-tab="key"` and `data-ln-panel="key"`), decoupled from their relative DOM positions.
 
 ### Why not built on `ln-toggle`?
-While similar on the surface, their contracts diverge. `ln-toggle` is a binary disclosure primitive (using `aria-expanded`). `ln-tabs` is an N-way exclusive tablist (using `aria-selected` and `aria-hidden`) that supports advanced, namespace-scoped URL deep-linking out of the box.
+While similar on the surface, their contracts diverge. `ln-toggle` is a binary disclosure primitive (using `aria-expanded`). `ln-tabs` is an N-way exclusive tablist (using `aria-selected`) that supports advanced, namespace-scoped URL deep-linking out of the box.
 
 ---
 
 ## 2. Minimal Blueprint
 
-Triggers and panels are bound via matching keys inside a wrapper. Inactive panels must carry `class="hidden"` to prevent a layout flash before initialization.
+Triggers and panels are bound via matching keys inside a wrapper. Inactive panels must carry the `hidden` attribute to prevent a layout flash before initialization.
 
 ```html
 <section id="user-tabs" data-ln-tabs data-ln-tabs-default="info">
@@ -33,7 +33,7 @@ Triggers and panels are bound via matching keys inside a wrapper. Inactive panel
     <section data-ln-panel="info">
         <p>This is the info panel.</p>
     </section>
-    <section data-ln-panel="settings" class="hidden">
+    <section data-ln-panel="settings" hidden>
         <p>This is the settings panel.</p>
     </section>
 </section>
@@ -42,7 +42,7 @@ Triggers and panels are bound via matching keys inside a wrapper. Inactive panel
 ### Key Anatomy Rules
 - **The Wrapper (`data-ln-tabs`)**: Creates the tabs root instance.
 - **The Trigger (`data-ln-tab="key"`)**: Marks the element as a click target. Must be a `<button>` (with `type="button"` inside forms) or an `<a>` anchor.
-- **The Panel (`data-ln-panel="key"`)**: Matches the trigger by key. Inactive panels must carry `class="hidden"`.
+- **The Panel (`data-ln-panel="key"`)**: Matches the trigger by key. Inactive panels must carry the `hidden` attribute.
 
 ---
 
@@ -188,7 +188,7 @@ Each instance caches `tabs[]`/`panels[]` and derived `mapTabs`/`mapPanels` (keye
 ### Activation order (`_applyActive`)
 
 1. An invalid key (typo, removed panel) silently resolves to `defaultKey` — permissive by design, the component is downstream of attribute writes.
-2. Tab buttons flip `data-active`/`aria-selected` first, then panels flip `.hidden`/`aria-hidden` — natural read order for assistive tech.
+2. Tab buttons flip `aria-selected` first, then panels flip `hidden` — natural read order for assistive tech.
 3. Auto-focus is deferred one `setTimeout(0)` (the panel was just un-hidden; layout hasn't settled) with `{ preventScroll: true }`.
 4. Event dispatch happens after all DOM/ARIA writes; persistence save happens last, only when `data-ln-persist` is present and hash mode is off.
 
@@ -202,7 +202,7 @@ A non-empty `data-ln-tab` value wins if present; otherwise the `href` is split o
 
 ### Destroy
 
-Idempotent. Detaches every click handler and clears their double-attach guards, detaches `hashchange` only if hash-enabled, dispatches `ln-tabs:destroyed`, deletes `dom.lnTabs`. Does NOT reset visual state (`data-active`/`aria-selected` survive), clear `localStorage`, or remove `data-ln-tabs-active` — a future re-init resumes from whatever is left.
+Idempotent. Detaches every click handler and clears their double-attach guards, detaches `hashchange` only if hash-enabled, dispatches `ln-tabs:destroyed`, deletes `dom.lnTabs`. Does NOT reset visual state (`aria-selected` survives), clear `localStorage`, or remove `data-ln-tabs-active` — a future re-init resumes from whatever is left.
 
 ### Failure modes
 

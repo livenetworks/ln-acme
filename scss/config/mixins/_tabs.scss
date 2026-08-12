@@ -10,7 +10,7 @@
 	@include flex;
 	@include border-b;
 
-	[data-ln-tab][data-active] {
+	[data-ln-tab][aria-selected="true"] {
 		color: var(--color-accent);
 		border-bottom-color: var(--color-accent);
 		background: none;

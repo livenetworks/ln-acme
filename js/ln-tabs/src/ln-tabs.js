@@ -137,19 +137,11 @@ import { hashGet, hashSet, hashLinkClick } from '../../ln-core';
 		if (!key || !(key in this.mapPanels)) key = this.defaultKey;
 		for (const k in this.mapTabs) {
 			const btn = this.mapTabs[k];
-			if (k === key) {
-				btn.setAttribute("data-active", "");
-				btn.setAttribute("aria-selected", "true");
-			} else {
-				btn.removeAttribute("data-active");
-				btn.setAttribute("aria-selected", "false");
-			}
+			btn.setAttribute("aria-selected", k === key ? "true" : "false");
 		}
 		for (const k in this.mapPanels) {
 			const panel = this.mapPanels[k];
-			const show = (k === key);
-			panel.classList.toggle("hidden", !show);
-			panel.setAttribute("aria-hidden", show ? "false" : "true");
+			panel.hidden = (k !== key);
 		}
 		if (this.autoFocus) {
 			const first = this.mapPanels[key]?.querySelector('input,button,select,textarea,[tabindex]:not([tabindex="-1"])');

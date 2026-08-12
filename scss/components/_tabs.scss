@@ -15,7 +15,3 @@
 [data-ln-tabs] [data-ln-panel] {
 	@include tabs-panel;
 }
-
-[data-ln-tabs] [data-ln-panel].hidden {
-	@include hidden;
-}

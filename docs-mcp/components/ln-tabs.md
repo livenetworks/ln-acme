@@ -22,7 +22,7 @@ The `ln-tabs` component (~180 lines JS) manages N-way exclusive selection of con
 *   **Dual Operating Modes (Trigger-Based):**
     1.  **Anchor Triggers (`<a href="#nsKey:key">`) → URL Hash Sync Mode:** Enables shareable, bookmarkable deep links with browser Back/Forward navigation. Uses `id` or `data-ln-tabs-key` on the wrapper as the namespace via [`js/ln-core/hash.js`](../../js/ln-core/hash.js).
     2.  **Button Triggers (`<button>`) → localStorage Persist Mode:** Used for standard UI buttons. Does not mutate the URL. Opt-in persistence via `data-ln-persist` saves/restores state via [`js/ln-core/persist.js`](../../js/ln-core/persist.js).
-*   **Reactive ARIA & Focus Management:** Automatically updates `aria-selected` on triggers, toggles `.hidden` and `aria-hidden` on panels, and focuses the first focusable element inside newly activated panels (`data-ln-tabs-focus="true"` by default).
+*   **Reactive ARIA & Focus Management:** Automatically updates `aria-selected` on triggers, toggles the native `hidden` attribute on panels, and focuses the first focusable element inside newly activated panels (`data-ln-tabs-focus="true"` by default).
 
 > [!IMPORTANT]
 > **What the component does NOT do (Orthogonality Doctrine):**
@@ -47,11 +47,11 @@ The `ln-tabs` component (~180 lines JS) manages N-way exclusive selection of con
         <h4>Overview</h4>
     </section>
 
-    <section data-ln-panel="details" class="hidden">
+    <section data-ln-panel="details" hidden>
         <h4>Details</h4>
     </section>
 
-    <section data-ln-panel="settings" class="hidden">
+    <section data-ln-panel="settings" hidden>
         <h4>Settings</h4>
     </section>
 </section>
@@ -70,7 +70,7 @@ The `ln-tabs` component (~180 lines JS) manages N-way exclusive selection of con
         <h4>User Info</h4>
     </section>
 
-    <section data-ln-panel="settings" class="hidden">
+    <section data-ln-panel="settings" hidden>
         <h4>User Settings</h4>
     </section>
 </section>
@@ -86,7 +86,7 @@ The `ln-tabs` component (~180 lines JS) manages N-way exclusive selection of con
     </nav>
 
     <section data-ln-panel="general">...</section>
-    <section data-ln-panel="security" class="hidden">...</section>
+    <section data-ln-panel="security" hidden>...</section>
 </section>
 ```
 
@@ -125,12 +125,11 @@ Visual styling relies on SCSS mixins in the visual layer:
     nav { @include tabs-nav; }
     [data-ln-tab] { @include tabs-tab; }
     [data-ln-panel] { @include tabs-panel; }
-    [data-ln-panel].hidden { @include hidden; }
 }
 ```
 
-*   **Active Tab Hooks:** Active triggers receive `[data-active]` attribute and `aria-selected="true"`.
-*   **Inactive Panel Hooks:** Hidden panels receive `.hidden` class and `aria-hidden="true"`.
+*   **Active Tab Hooks:** Active triggers receive `aria-selected="true"`.
+*   **Inactive Panel Hooks:** Hidden panels receive the native `hidden` attribute.
 
 ---
 
@@ -138,15 +137,15 @@ Visual styling relies on SCSS mixins in the visual layer:
 
 ### ARIA & Keyboard
 
-- **Selection State:** Active trigger gets `data-active` & `aria-selected="true"`. Inactive triggers get `aria-selected="false"`.
-- **Panel Visibility:** Active panel gets `aria-hidden="false"`. Inactive panels get `class="hidden"` & `aria-hidden="true"`.
+- **Selection State:** Active trigger gets `aria-selected="true"`. Inactive triggers get `aria-selected="false"`.
+- **Panel Visibility:** Active panel has no `hidden` attribute. Inactive panels get the native `hidden` attribute.
 - **Auto-Focus:** Focuses first focusable element (`input, button, select, textarea, [tabindex]`) in active panel via `setTimeout(0)` with `{ preventScroll: true }`.
 
 ### Common Pitfalls & Anti-patterns
 
 > [!CAUTION]
 > 1. **Buttons Inside `<form>` Without `type="button"`:** `<button>` elements inside forms default to `type="submit"`, triggering unintended form submissions when clicking tabs. Always add `type="button"`.
-> 2. **Omitting `class="hidden"` on Inactive Panels in Markup:** Omitting `.hidden` from inactive panels in initial server markup causes Layout Flash (FOUC) before JS initializes.
+> 2. **Omitting `hidden` on Inactive Panels in Markup:** Omitting the `hidden` attribute from inactive panels in initial server markup causes Layout Flash (FOUC) before JS initializes.
 > 3. **Mixing Anchors and `data-ln-persist`:** Anchor triggers use Hash Sync mode and bypass `localStorage` persistence to avoid competing state sources.
 
 ---
@@ -175,7 +174,7 @@ sequenceDiagram
     Instance->>DOM: setAttribute('data-ln-tabs-active', key)
     DOM->>MO: MutationObserver fires attribute change
     MO->>Instance: _applyActive(key)
-    Instance->>DOM: Update data-active, aria-selected, .hidden & aria-hidden
+    Instance->>DOM: Update aria-selected & hidden
     Instance->>DOM: dispatch ln-tabs:change { key, tab, panel }
 
     Note over User, DOM: User Click on Tab Trigger
