@@ -55,6 +55,32 @@ document.querySelectorAll('.demo-split').forEach(function(split) {
 	init();
 })();
 
+// Bundle Switcher
+(function initBundleSwitcher() {
+	document.addEventListener('click', function (e) {
+		const target = e.target;
+		if (!(target instanceof Element)) return;
+		const btn = target.closest('[data-demo-bundle]');
+		if (!btn) return;
+
+		const bundle = btn.getAttribute('data-demo-bundle');
+		const linkAshlar = document.getElementById('theme-ashlar');
+		const linkTailwind = document.getElementById('theme-tailwind');
+
+		if (bundle === 'tailwind') {
+			if (linkAshlar) linkAshlar.disabled = true;
+			if (linkTailwind) linkTailwind.disabled = false;
+		} else {
+			if (linkAshlar) linkAshlar.disabled = false;
+			if (linkTailwind) linkTailwind.disabled = true;
+		}
+
+		try {
+			localStorage.setItem('ln-demo-bundle', bundle);
+		} catch (err) {}
+	});
+})();
+
 // Dynamic Demo Code Inspector (HTML & SCSS)
 (function initDemoCodeInspectors() {
 	function escapeHtml(string) {

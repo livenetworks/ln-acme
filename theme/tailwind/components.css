@@ -1,0 +1,785 @@
+/* ==========================================================================
+   ln-ashlar Tailwind v4 Component Layer
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   0. Base Controls & Shared UI Elements
+   -------------------------------------------------------------------------- */
+.btn, button.btn, button[type="button"], button[type="submit"] {
+	@apply inline-flex items-center justify-center gap-2 font-medium transition-all cursor-pointer select-none rounded-(--radius-md) border px-(--ln-pad-x) py-(--ln-pad-y) text-sm;
+	background-color: var(--color-surface-bg);
+	color: var(--color-text-main);
+	border-color: var(--color-border-main);
+}
+.btn:hover, button[type="button"]:hover, button[type="submit"]:hover {
+	background-color: var(--color-surface-subtle);
+	border-color: var(--color-border-strong);
+}
+.btn:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+	outline: 2px solid var(--color-primary);
+	outline-offset: 2px;
+}
+
+.btn-primary, button.btn-primary, button.btn.btn-primary {
+	background-color: var(--color-primary);
+	color: var(--color-primary-fg);
+	border-color: var(--color-primary);
+}
+.btn-primary:hover, button.btn-primary:hover {
+	background-color: var(--color-primary-hover);
+	border-color: var(--color-primary-hover);
+}
+
+.btn-secondary, button.btn-secondary {
+	background-color: var(--color-surface-subtle);
+	color: var(--color-text-main);
+	border-color: var(--color-border-subtle);
+}
+
+.badge, span.badge {
+	@apply inline-flex items-center gap-1 rounded-(--radius-full) px-2.5 py-0.5 text-xs font-semibold border;
+	background-color: var(--color-surface-subtle);
+	color: var(--color-text-muted);
+	border-color: var(--color-border-subtle);
+}
+.badge.success, span.badge.success {
+	background-color: var(--color-surface-subtle);
+	color: var(--color-success);
+	border-color: var(--color-success);
+}
+.badge.error, span.badge.error {
+	background-color: var(--color-surface-subtle);
+	color: var(--color-danger);
+	border-color: var(--color-danger);
+}
+.badge.warning, span.badge.warning {
+	background-color: var(--color-surface-subtle);
+	color: var(--color-warning);
+	border-color: var(--color-warning);
+}
+
+/* --------------------------------------------------------------------------
+   1. App Shell, Header & Sidebar Layout
+   -------------------------------------------------------------------------- */
+.app-wrapper {
+	@apply flex flex-col h-screen overflow-hidden;
+	background-color: var(--color-app-bg);
+}
+
+.app-header {
+	@apply fixed top-0 left-0 right-0 h-14 z-40 flex items-center justify-between px-4 border-b shadow-xs transition-colors;
+	background-color: var(--color-surface-bg);
+	border-color: var(--color-border-subtle);
+}
+.app-header .header-left {
+	@apply flex items-center gap-3;
+}
+.app-header .header-left h1 {
+	@apply text-base font-bold tracking-tight m-0;
+	color: var(--color-text-main);
+}
+.app-header .header-right {
+	@apply flex items-center gap-3;
+}
+.app-header .header-actions {
+	@apply flex items-center gap-2 relative;
+}
+
+.app-main {
+	@apply flex flex-1 mt-14 h-[calc(100vh-3.5rem)] overflow-hidden transition-all duration-200;
+}
+.app-main:has(.app-sidebar[data-ln-toggle="open"]),
+.app-main:has(.app-sidebar.open) {
+	@apply pl-64;
+}
+
+.app-sidebar, aside.app-sidebar {
+	@apply fixed top-14 left-0 h-[calc(100vh-3.5rem)] w-64 z-30 flex flex-col border-r transition-transform duration-200 -translate-x-full overflow-y-auto p-4 space-y-4;
+	background-color: var(--color-surface-bg);
+	border-color: var(--color-border-subtle);
+}
+.app-sidebar[data-ln-toggle="open"],
+.app-sidebar.open {
+	@apply translate-x-0;
+}
+
+.app-sidebar header {
+	@apply flex flex-col gap-3 pb-3 border-b;
+	border-color: var(--color-border-subtle);
+}
+.app-sidebar header > button[data-ln-toggle-for] {
+	@apply self-end p-1 rounded-(--radius-xs) text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 border-0 bg-transparent cursor-pointer;
+}
+.app-sidebar header > img.logo {
+	@apply h-8 w-auto self-start;
+}
+.app-sidebar header > span.app-name {
+	@apply font-bold text-sm tracking-tight;
+	color: var(--color-text-main);
+}
+.app-sidebar header > label.search {
+	@apply mt-1;
+}
+
+.app-sidebar main {
+	@apply flex-1 overflow-y-auto space-y-4 pr-1;
+}
+
+/* --------------------------------------------------------------------------
+   2. Navigation Menu (Sidebar Nav & General Nav)
+   -------------------------------------------------------------------------- */
+nav, .nav, nav[data-ln-nav] {
+	@apply space-y-3;
+}
+nav ul, .nav ul {
+	@apply space-y-1 list-none p-0 m-0;
+}
+nav li, .nav li {
+	@apply relative m-0 p-0;
+}
+nav a, .nav a, [data-ln-nav] a {
+	@apply flex items-center gap-2.5 px-3 py-2 rounded-(--radius-md) text-sm font-medium transition-colors no-underline border-0;
+	color: var(--color-text-muted);
+}
+nav a:hover, .nav a:hover, [data-ln-nav] a:hover {
+	background-color: var(--color-surface-subtle);
+	color: var(--color-text-main);
+}
+nav a.active, .nav a.active, [data-ln-nav] a.active, nav a[aria-current="page"] {
+	background-color: var(--color-surface-subtle);
+	color: var(--color-primary);
+	@apply font-semibold;
+}
+nav a svg.ln-icon, .nav a svg.ln-icon {
+	@apply w-4 h-4 shrink-0;
+	color: var(--color-text-subtle);
+}
+nav a.active svg.ln-icon, .nav a.active svg.ln-icon {
+	color: var(--color-primary);
+}
+
+.nav-section, h6.nav-section {
+	@apply text-xs font-bold uppercase tracking-wider px-3 pt-3 pb-1 block;
+	color: var(--color-text-subtle);
+}
+.nav-label, span.nav-label {
+	@apply truncate flex-1;
+}
+
+/* --------------------------------------------------------------------------
+   3. Popover Pickers & Dropdown Overlays
+   -------------------------------------------------------------------------- */
+[data-ln-popover], [data-ln-dropdown] > [data-ln-toggle], .demo-theme-picker, .demo-density-picker, .demo-bundle-picker {
+	@apply hidden absolute right-0 top-full mt-2 z-50 min-w-44 p-1.5 rounded-(--radius-lg) border shadow-xl transition-all;
+	background-color: var(--color-surface-elevated);
+	border-color: var(--color-border-main);
+}
+[data-ln-popover][open], [data-ln-popover].open,
+[data-ln-dropdown][open] > [data-ln-toggle], [data-ln-dropdown].open > [data-ln-toggle] {
+	@apply block opacity-100 visible;
+}
+
+[data-ln-popover] ul, .demo-theme-picker ul, .demo-density-picker ul, .demo-bundle-picker ul {
+	@apply space-y-0.5 list-none p-0 m-0;
+}
+[data-ln-popover] button, .demo-theme-picker button, .demo-density-picker button, .demo-bundle-picker button {
+	@apply w-full text-left flex items-center gap-2.5 px-3 py-1.5 text-xs font-medium rounded-(--radius-sm) transition-colors border-0 cursor-pointer;
+	color: var(--color-text-main);
+	background: transparent;
+}
+[data-ln-popover] button:hover, .demo-theme-picker button:hover, .demo-density-picker button:hover, .demo-bundle-picker button:hover {
+	background-color: var(--color-surface-subtle);
+}
+
+.demo-theme-swatch, span.demo-theme-swatch {
+	@apply w-3.5 h-3.5 rounded-full border border-slate-300 dark:border-slate-600 inline-block shrink-0;
+}
+.demo-theme-swatch[data-preset="light"] { @apply bg-slate-100; }
+.demo-theme-swatch[data-preset="dark"] { @apply bg-slate-900; }
+.demo-theme-swatch[data-preset="ocean"] { @apply bg-cyan-600; }
+.demo-theme-swatch[data-preset="sunset"] { @apply bg-rose-600; }
+.demo-theme-swatch[data-preset="midnight"] { @apply bg-purple-950; }
+.demo-theme-swatch[data-preset="glass"] { @apply bg-sky-400/50; }
+
+/* --------------------------------------------------------------------------
+   4. Modal Component ([data-ln-modal])
+   -------------------------------------------------------------------------- */
+[data-ln-modal], dialog[data-ln-modal], .ln-modal {
+	@apply fixed inset-0 z-50 overflow-y-auto rounded-(--radius-xl) border shadow-2xl p-6 transition-all backdrop:bg-slate-950/60 backdrop:backdrop-blur-xs;
+	background-color: var(--color-surface-elevated);
+	color: var(--color-text-main);
+	border-color: var(--color-border-main);
+}
+[data-ln-modal].open, dialog[data-ln-modal][open], .ln-modal-open, .ln-enter {
+	@apply opacity-100 scale-100;
+}
+.ln-out {
+	@apply opacity-0 scale-95 pointer-events-none;
+}
+
+[data-ln-modal] > header, [data-ln-modal] > form > header, form > header {
+	@apply flex items-center justify-between pb-4 mb-4 border-b;
+	border-color: var(--color-border-subtle);
+}
+[data-ln-modal] > header > h3, [data-ln-modal] > form > header > h3, form > header > h3 {
+	@apply text-lg font-semibold tracking-tight;
+	color: var(--color-text-main);
+}
+[data-ln-modal] > header > button[data-ln-modal-close], form > header > button[data-ln-modal-close], [data-ln-form] > header > button[data-ln-modal-close] {
+	@apply inline-flex items-center justify-center p-1.5 rounded-(--radius-sm) transition-colors cursor-pointer border-0;
+	color: var(--color-text-muted);
+	background: transparent;
+}
+[data-ln-modal] > header > button[data-ln-modal-close]:hover, form > header > button[data-ln-modal-close]:hover {
+	background-color: var(--color-surface-subtle);
+	color: var(--color-text-main);
+}
+
+[data-ln-modal] > main, [data-ln-modal] > form > main, [data-ln-form] > main, form > main {
+	@apply space-y-4 py-2;
+}
+form > main > p {
+	@apply text-sm leading-relaxed;
+	color: var(--color-text-muted);
+}
+form > main > p > code {
+	@apply px-1.5 py-0.5 rounded-(--radius-xs) text-xs font-mono;
+	background-color: var(--color-surface-subtle);
+	color: var(--color-primary);
+}
+
+[data-ln-modal] > footer, [data-ln-modal] > form > footer, [data-ln-form] > footer, form > footer {
+	@apply flex items-center justify-end gap-3 pt-4 mt-4 border-t;
+	border-color: var(--color-border-subtle);
+}
+form > footer > button.btn[data-ln-modal-close], [data-ln-form] > footer > button.btn.btn-secondary[data-ln-modal-close] {
+	background-color: var(--color-surface-subtle);
+	color: var(--color-text-main);
+	border-color: var(--color-border-subtle);
+}
+[data-ln-form] > footer > button.btn.btn-primary {
+	background-color: var(--color-primary);
+	color: var(--color-primary-fg);
+	border-color: var(--color-primary);
+}
+
+/* --------------------------------------------------------------------------
+   5. Table Component ([data-ln-table])
+   -------------------------------------------------------------------------- */
+[data-ln-table], table[data-ln-table], .ln-table {
+	@apply w-full text-left border-collapse text-sm rounded-(--radius-lg) overflow-hidden border;
+	background-color: var(--color-surface-bg);
+	border-color: var(--color-border-subtle);
+}
+[data-ln-table] > thead > tr > th, thead > tr > th {
+	@apply px-4 py-3 font-semibold text-xs uppercase tracking-wider border-b;
+	background-color: var(--color-surface-subtle);
+	color: var(--color-text-muted);
+	border-color: var(--color-border-subtle);
+}
+thead > tr > th.center, tbody > tr > td.center {
+	@apply text-center;
+}
+[data-ln-table] > tbody > tr > td, tbody > tr > td {
+	@apply px-4 py-3 border-b transition-colors;
+	color: var(--color-text-main);
+	border-color: var(--color-border-subtle);
+}
+[data-ln-table] > tbody > tr:hover, tbody > tr:hover {
+	background-color: var(--color-surface-subtle);
+}
+[data-ln-table] > tfoot > tr > td, tfoot > tr > td {
+	@apply px-4 py-3 font-semibold border-t;
+	background-color: var(--color-surface-subtle);
+	color: var(--color-text-main);
+	border-color: var(--color-border-main);
+}
+[data-ln-table] caption, caption {
+	@apply py-2 px-4 text-xs italic text-left;
+	color: var(--color-text-subtle);
+}
+div.table-pagination {
+	@apply flex items-center justify-between py-3 px-4 text-sm border-t;
+	border-color: var(--color-border-subtle);
+}
+tr.ln-row-selected, .ln-row-selected {
+	background-color: var(--color-surface-subtle);
+}
+tr.ln-row-focused, .ln-row-focused {
+	outline: 2px solid var(--color-primary);
+}
+.ln-table--loading {
+	@apply opacity-60 pointer-events-none;
+}
+
+/* --------------------------------------------------------------------------
+   6. Form Component ([data-ln-form] & [data-ln-validate])
+   -------------------------------------------------------------------------- */
+[data-ln-form], form, [data-ln-validate] {
+	@apply space-y-4;
+}
+div.form-element, [data-ln-form] > main > div.form-element {
+	@apply flex flex-col gap-1.5;
+}
+div.form-element > label, [data-ln-form] > main > div.form-element > label {
+	@apply text-sm font-medium;
+	color: var(--color-text-main);
+}
+div.form-element > input, div.form-element > select, div.form-element > textarea,
+[data-ln-form] > main > div.form-element > input, [data-ln-validate] input, select, textarea {
+	@apply w-full rounded-(--radius-md) border px-3 py-2 text-sm transition-colors;
+	background-color: var(--color-surface-bg);
+	color: var(--color-text-main);
+	border-color: var(--color-border-main);
+}
+div.form-element > input:hover, div.form-element > select:hover, div.form-element > textarea:hover {
+	border-color: var(--color-border-strong);
+}
+option {
+	background-color: var(--color-surface-bg);
+	color: var(--color-text-main);
+}
+
+fieldset, [data-ln-form] > main > fieldset {
+	@apply rounded-(--radius-lg) border p-4 space-y-3;
+	border-color: var(--color-border-subtle);
+}
+legend, fieldset > legend, [data-ln-form] > main > fieldset > legend {
+	@apply px-2 text-xs font-semibold uppercase tracking-wider;
+	color: var(--color-text-muted);
+}
+div.form-grid, [data-ln-form] > main > fieldset > div.form-grid {
+	@apply grid grid-cols-1 sm:grid-cols-2 gap-4;
+}
+
+ul[data-ln-validate-errors], ul.form-errors {
+	@apply text-xs space-y-1 mt-1;
+	color: var(--color-danger);
+}
+ul[data-ln-validate-errors] > li[data-ln-validate-error], li.hidden[data-ln-validate-error] {
+	@apply flex items-center gap-1;
+}
+
+.is-loading, [data-ln-form].is-loading, [data-ln-validate].is-loading {
+	@apply opacity-70 pointer-events-none;
+}
+
+/* --------------------------------------------------------------------------
+   7. Search Component ([data-ln-search])
+   -------------------------------------------------------------------------- */
+[data-ln-search], label.search {
+	@apply relative flex items-center w-full;
+}
+input[data-ln-search-for], label.search > input {
+	@apply w-full pl-9 pr-8 py-2 rounded-(--radius-md) border text-sm transition-colors;
+	background-color: var(--color-surface-bg);
+	color: var(--color-text-main);
+	border-color: var(--color-border-main);
+}
+label.search > svg.ln-icon {
+	@apply absolute left-3 w-4 h-4 pointer-events-none;
+	color: var(--color-text-subtle);
+}
+button[data-ln-search-clear], label.search > button[data-ln-search-clear] {
+	@apply absolute right-2 p-1 text-xs cursor-pointer border-0 rounded-(--radius-xs);
+	color: var(--color-text-muted);
+	background: transparent;
+}
+
+/* --------------------------------------------------------------------------
+   8. Filter Component ([data-ln-filter])
+   -------------------------------------------------------------------------- */
+[data-ln-filter] {
+	@apply rounded-(--radius-lg) border p-4 space-y-3;
+	background-color: var(--color-surface-bg);
+	border-color: var(--color-border-subtle);
+}
+form > div.filter-group {
+	@apply flex flex-wrap items-center gap-3;
+}
+button[data-ln-filter-apply] {
+	background-color: var(--color-primary);
+	color: var(--color-primary-fg);
+}
+button[data-ln-filter-clear] {
+	background-color: var(--color-surface-subtle);
+	color: var(--color-text-main);
+}
+.ln-filter-active {
+	border-color: var(--color-primary);
+}
+
+/* --------------------------------------------------------------------------
+   9. Tabs Component ([data-ln-tabs])
+   -------------------------------------------------------------------------- */
+[data-ln-tabs] {
+	@apply space-y-4;
+}
+[data-ln-tabs] > nav, nav {
+	@apply flex items-center gap-1 border-b pb-px;
+	border-color: var(--color-border-subtle);
+}
+nav > button[data-ln-tab], nav > a[data-ln-tab] {
+	@apply px-4 py-2.5 text-sm font-medium transition-colors border-b-2 -mb-px cursor-pointer border-transparent;
+	color: var(--color-text-muted);
+}
+nav > button[data-ln-tab]:hover, nav > a[data-ln-tab]:hover {
+	color: var(--color-text-main);
+	border-color: var(--color-border-strong);
+}
+nav > button[data-ln-tab][aria-selected="true"], nav > a[data-ln-tab][aria-selected="true"] {
+	color: var(--color-primary);
+	border-color: var(--color-primary);
+}
+section[data-ln-panel] {
+	@apply py-2 space-y-3;
+}
+section.hidden[data-ln-panel] {
+	display: none;
+}
+section[data-ln-panel] > h4, section.hidden[data-ln-panel] > h4 {
+	@apply text-base font-semibold;
+	color: var(--color-text-main);
+}
+section.hidden[data-ln-panel] > p > code {
+	@apply font-mono text-xs px-1 py-0.5 rounded-(--radius-xs);
+	background-color: var(--color-surface-subtle);
+}
+
+/* --------------------------------------------------------------------------
+   10. Toast Component ([data-ln-toast])
+   -------------------------------------------------------------------------- */
+[data-ln-toast] {
+	@apply fixed bottom-4 right-4 z-50 flex flex-col gap-3 max-w-sm w-full pointer-events-none;
+}
+template[data-ln-template] > li[data-ln-toast-item], li[data-ln-toast-item] {
+	@apply pointer-events-auto flex items-start gap-3 p-4 rounded-(--radius-lg) border shadow-xl transition-all;
+	background-color: var(--color-surface-elevated);
+	color: var(--color-text-main);
+	border-color: var(--color-border-main);
+}
+li[data-ln-toast-item] > div.icon {
+	@apply shrink-0 mt-0.5;
+}
+li[data-ln-toast-item] > section.content {
+	@apply flex-1 space-y-1;
+}
+li[data-ln-toast-item] > section.content > header {
+	@apply flex items-center justify-between border-0 p-0 m-0;
+}
+li.success[data-ln-toast-item], li[data-ln-toast-item].success {
+	border-color: var(--color-success);
+}
+li.success[data-ln-toast-item] > div.icon > svg.ln-icon {
+	color: var(--color-success);
+}
+li.success[data-ln-toast-item] > section.content > header > strong.title {
+	@apply text-sm font-semibold;
+	color: var(--color-text-main);
+}
+
+/* --------------------------------------------------------------------------
+   11. Toggle, Popover & Dropdown Components
+   -------------------------------------------------------------------------- */
+[data-ln-toggle], [data-ln-popover], [data-ln-dropdown] {
+	@apply transition-all;
+}
+button[data-ln-toggle-for], button[data-ln-popover-for] {
+	@apply cursor-pointer;
+}
+[data-ln-toggle][open], [data-ln-popover][open], [data-ln-dropdown][open],
+.open[data-ln-toggle], .open[data-ln-popover], .open[data-ln-dropdown] {
+	@apply opacity-100 visible;
+}
+
+[data-ln-dropdown] > [data-ln-toggle] {
+	@apply absolute z-40 min-w-48 py-1.5 rounded-(--radius-lg) border shadow-xl mt-1;
+	background-color: var(--color-surface-elevated);
+	border-color: var(--color-border-main);
+}
+[data-ln-toggle] > li > button, [data-ln-toggle] > li > a, [data-ln-toggle] > ul > li > button {
+	@apply w-full text-left px-3 py-2 text-sm transition-colors border-0 flex items-center gap-2;
+	color: var(--color-text-main);
+	background: transparent;
+}
+[data-ln-toggle] > li > button:hover, [data-ln-toggle] > li > a:hover {
+	background-color: var(--color-surface-subtle);
+}
+
+header > button[data-ln-toggle-for][data-ln-toggle-action] > svg.ln-icon {
+	@apply w-5 h-5;
+}
+
+/* --------------------------------------------------------------------------
+   12. Accordion Component ([data-ln-accordion])
+   -------------------------------------------------------------------------- */
+[data-ln-accordion] {
+	@apply space-y-2 rounded-(--radius-lg) border p-2;
+	border-color: var(--color-border-subtle);
+}
+li > header[data-ln-toggle-for] {
+	@apply flex items-center justify-between p-3 rounded-(--radius-md) cursor-pointer select-none transition-colors;
+	background-color: var(--color-surface-bg);
+}
+li > header[data-ln-toggle-for]:hover {
+	background-color: var(--color-surface-subtle);
+}
+li > header[data-ln-toggle-for] > strong, li > header[data-ln-toggle-for] > h4 {
+	@apply text-sm font-semibold;
+	color: var(--color-text-main);
+}
+li > header[data-ln-toggle-for] > svg.ln-icon.ln-chevron {
+	@apply w-4 h-4 transition-transform duration-200;
+	color: var(--color-text-muted);
+}
+li > [data-ln-toggle] > article.collapsible-body {
+	@apply p-4 text-sm space-y-2 leading-relaxed;
+	color: var(--color-text-muted);
+}
+li > [data-ln-toggle] > article.collapsible-body > p {
+	color: var(--color-text-muted);
+}
+li > [data-ln-toggle] > article.collapsible-body.prose > ul {
+	@apply list-disc list-inside space-y-1;
+}
+
+/* --------------------------------------------------------------------------
+   13. Editor Component ([data-ln-editor])
+   -------------------------------------------------------------------------- */
+[data-ln-editor] {
+	@apply rounded-(--radius-lg) border overflow-hidden;
+	background-color: var(--color-surface-bg);
+	border-color: var(--color-border-main);
+}
+.ln-editor-active {
+	border-color: var(--color-primary);
+}
+[data-ln-editor] div > ul > li > button[data-ln-editor-action] {
+	@apply p-2 text-xs rounded-(--radius-xs) transition-colors border-0 cursor-pointer;
+	color: var(--color-text-muted);
+	background: transparent;
+}
+[data-ln-editor] div > ul > li > button[data-ln-editor-action]:hover {
+	background-color: var(--color-surface-subtle);
+	color: var(--color-text-main);
+}
+
+/* --------------------------------------------------------------------------
+   14. Sortable Component ([data-ln-sortable])
+   -------------------------------------------------------------------------- */
+[data-ln-sortable] {
+	@apply space-y-2;
+}
+[data-ln-sortable] > li {
+	@apply flex items-center justify-between p-3 rounded-(--radius-md) border transition-all;
+	background-color: var(--color-surface-bg);
+	border-color: var(--color-border-subtle);
+}
+li > span.sortable-handle[data-ln-sortable-handle] {
+	@apply cursor-grab text-slate-400 hover:text-slate-600 p-1;
+}
+.ln-sortable--dragging {
+	@apply opacity-50 shadow-lg scale-102;
+}
+.ln-sortable--drop-before {
+	border-top: 2px solid var(--color-primary);
+}
+.ln-sortable--drop-after {
+	border-bottom: 2px solid var(--color-primary);
+}
+
+/* --------------------------------------------------------------------------
+   15. Upload Component ([data-ln-upload])
+   -------------------------------------------------------------------------- */
+[data-ln-upload] {
+	@apply space-y-3;
+}
+div[data-ln-upload-zone], div.ln-upload__zone {
+	@apply flex flex-col items-center justify-center p-6 border-2 border-dashed rounded-(--radius-lg) cursor-pointer transition-colors text-center;
+	border-color: var(--color-border-main);
+	background-color: var(--color-surface-subtle);
+}
+div[data-ln-upload-zone]:hover {
+	border-color: var(--color-primary);
+}
+ul[data-ln-upload-list] {
+	@apply space-y-2;
+}
+ul[data-ln-upload-list] > li[data-ln-upload-item] {
+	@apply flex items-center justify-between p-3 rounded-(--radius-md) border text-sm;
+	background-color: var(--color-surface-bg);
+	border-color: var(--color-border-subtle);
+}
+
+/* --------------------------------------------------------------------------
+   16. Confirm Component ([data-ln-confirm])
+   -------------------------------------------------------------------------- */
+[data-ln-confirm], button[data-ln-confirm-idle], button[data-ln-confirm-active] {
+	@apply inline-flex items-center gap-1.5 transition-all;
+}
+.ln-confirm-tooltip {
+	@apply text-xs px-2 py-1 rounded-(--radius-xs) shadow-md;
+	background-color: var(--color-surface-elevated);
+	color: var(--color-text-main);
+}
+
+/* --------------------------------------------------------------------------
+   17. List Component ([data-ln-list])
+   -------------------------------------------------------------------------- */
+[data-ln-list] {
+	@apply space-y-3;
+}
+li[data-ln-item] {
+	@apply p-4 rounded-(--radius-lg) border shadow-xs space-y-2 transition-all;
+	background-color: var(--color-surface-bg);
+	border-color: var(--color-border-subtle);
+}
+header.card-tile-top {
+	@apply flex items-center justify-between;
+}
+strong.card-tile-title {
+	@apply text-base font-semibold block;
+	color: var(--color-text-main);
+}
+span.card-tile-author {
+	@apply text-xs text-slate-500 block;
+}
+footer.card-tile-actions {
+	@apply flex items-center justify-end gap-2 pt-2 border-t;
+	border-color: var(--color-border-subtle);
+}
+.ln-item-selected {
+	border-color: var(--color-primary);
+	background-color: var(--color-surface-subtle);
+}
+.ln-list--loading {
+	@apply opacity-60 pointer-events-none;
+}
+
+/* --------------------------------------------------------------------------
+   18. Link Component ([data-ln-link])
+   -------------------------------------------------------------------------- */
+[data-ln-link], a {
+	@apply font-medium transition-colors underline-offset-4 hover:underline;
+	color: var(--color-primary);
+}
+.ln-link-status--visible {
+	@apply opacity-100;
+}
+
+/* --------------------------------------------------------------------------
+   19. Translations Component ([data-ln-translations])
+   -------------------------------------------------------------------------- */
+[data-ln-translations] {
+	@apply space-y-4 rounded-(--radius-xl) border p-6;
+	background-color: var(--color-surface-bg);
+	border-color: var(--color-border-subtle);
+}
+[data-ln-translations] > header > h3 {
+	@apply text-lg font-bold;
+	color: var(--color-text-main);
+}
+header > div.ln-translations__actions {
+	@apply flex items-center gap-3;
+}
+main > article[data-ln-translatable] {
+	@apply space-y-2 py-2;
+}
+
+/* --------------------------------------------------------------------------
+   20. Chart Component ([data-ln-chart])
+   -------------------------------------------------------------------------- */
+[data-ln-chart] {
+	@apply relative w-full p-4 rounded-(--radius-xl) border;
+	background-color: var(--color-surface-bg);
+	border-color: var(--color-border-subtle);
+}
+.ln-chart--loading {
+	@apply opacity-50 pointer-events-none;
+}
+.ln-chart--empty {
+	@apply flex items-center justify-center min-h-48 text-sm italic;
+	color: var(--color-text-subtle);
+}
+
+/* --------------------------------------------------------------------------
+   21. Circular Progress Component ([data-ln-circular-progress])
+   -------------------------------------------------------------------------- */
+[data-ln-circular-progress] {
+	@apply relative inline-flex items-center justify-center;
+}
+.ln-circular-progress__track {
+	stroke: var(--color-border-subtle);
+}
+.ln-circular-progress__fill {
+	stroke: var(--color-primary);
+	transition: stroke-dashoffset 0.3s ease;
+}
+.ln-circular-progress__label {
+	@apply text-xs font-semibold;
+	fill: var(--color-text-main);
+}
+
+/* --------------------------------------------------------------------------
+   22. Remaining Minimal Component Roots & Data Tokens
+   -------------------------------------------------------------------------- */
+[data-ln-stat] {
+	@apply p-4 rounded-(--radius-lg) border space-y-1;
+	background-color: var(--color-surface-bg);
+	border-color: var(--color-border-subtle);
+}
+[data-ln-autoresize] {
+	@apply transition-all;
+}
+[data-ln-time] {
+	@apply text-sm font-mono;
+	color: var(--color-text-muted);
+}
+[data-ln-options] {
+	@apply space-y-1;
+}
+[data-ln-include] {
+	@apply transition-opacity;
+}
+[data-ln-ajax], .ln-ajax--loading {
+	@apply relative;
+}
+[data-ln-api-queue] {
+	@apply hidden;
+}
+[data-ln-autosave] {
+	@apply relative;
+}
+[data-ln-couchdb-connector] {
+	@apply hidden;
+}
+[data-ln-tooltip] {
+	@apply absolute z-50 text-xs px-2 py-1 rounded-(--radius-xs) shadow-md pointer-events-none;
+	background-color: var(--color-surface-elevated);
+	color: var(--color-text-main);
+}
+
+[data-ln-date], time[data-ln-date], .ln-date {
+	@apply font-mono text-sm;
+	color: var(--color-text-muted);
+}
+
+[data-ln-number], .ln-number {
+	@apply font-mono text-sm;
+	color: var(--color-text-main);
+}
+
+[data-ln-progress], .ln-progress, div[data-ln-progress] {
+	@apply h-2 w-full rounded-full overflow-hidden;
+	background-color: var(--color-surface-subtle);
+}
+
+[data-ln-debug], .ln-debug {
+	@apply relative;
+}
+[data-ln-debug] head > meta {
+	display: none;
+}
+[data-ln-debug] body > div.app-wrapper > header.app-header > div.header-left {
+	@apply flex items-center gap-3;
+}

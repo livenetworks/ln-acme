@@ -35,8 +35,29 @@
 		} catch (e) { /* localStorage unavailable — fall through */ }
 	})();
 	</script>
+	<link rel="stylesheet" id="theme-ashlar" href="../dist/ln-ashlar.css">
+	<link rel="stylesheet" id="theme-tailwind" href="../dist/ln-ashlar-tailwind.css">
 	<link rel="stylesheet" href="dist/admin.css">
 	<link rel="stylesheet" href="../dist/ln-ashlar-dev.css">
+	<!-- Bundle bootstrap script — runs after link tags before first paint to prevent FOUC. -->
+	<script>
+	(function () {
+		var KEY = 'ln-demo-bundle';
+		var linkAshlar = document.getElementById('theme-ashlar');
+		var linkTailwind = document.getElementById('theme-tailwind');
+		if (!linkAshlar || !linkTailwind) return;
+		try {
+			var stored = localStorage.getItem(KEY);
+			if (stored === 'tailwind') {
+				linkAshlar.disabled = true;
+				linkTailwind.disabled = false;
+			} else {
+				linkAshlar.disabled = false;
+				linkTailwind.disabled = true;
+			}
+		} catch (e) { /* localStorage unavailable */ }
+	})();
+	</script>
 	<script src="../dist/ln-ashlar.iife.js" defer></script>
 	<script src="dist/demo.js" defer></script>
 </head>
@@ -75,6 +96,15 @@
 			</div>
 			<div class="header-right">
 				<div class="header-actions">
+					<button type="button" id="demo-bundle-trigger" data-ln-popover-for="demo-bundle-picker" aria-label="Choose CSS Bundle">
+						<svg class="ln-icon" aria-hidden="true"><use href="#ln-icon-adjustments-alt"></use></svg>
+					</button>
+					<div class="demo-bundle-picker" data-ln-popover id="demo-bundle-picker">
+						<ul>
+							<li><button type="button" data-demo-bundle="ashlar">Ashlar SCSS</button></li>
+							<li><button type="button" data-demo-bundle="tailwind">Tailwind v4</button></li>
+						</ul>
+					</div>
 					<button type="button" id="demo-theme-trigger" data-ln-popover-for="demo-theme-picker" aria-label="Choose theme">
 						<svg class="ln-icon" aria-hidden="true"><use href="#ln-icon-palette"></use></svg>
 					</button>

@@ -1,0 +1,243 @@
+/* ==========================================================================
+   ln-ashlar Tailwind v4 Theme Specification & Design System Tokens
+   ========================================================================== */
+
+/* Custom Variants for Themes & Densities */
+@custom-variant dark ([data-theme="dark"] &);
+@custom-variant light ([data-theme="light"] &);
+@custom-variant ocean ([data-theme="ocean"] &);
+@custom-variant sunset ([data-theme="sunset"] &);
+@custom-variant midnight ([data-theme="midnight"] &);
+@custom-variant glass ([data-theme="glass"] &);
+
+@custom-variant compact ([data-density="compact"] &);
+@custom-variant comfortable ([data-density="comfortable"] &);
+@custom-variant spacious ([data-density="spacious"] &);
+
+/* Tailwind v4 Semantic Theme Definitions */
+@theme {
+	--font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+	--font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+	--radius-xs: 0.125rem;
+	--radius-sm: 0.25rem;
+	--radius-md: 0.375rem;
+	--radius-lg: 0.5rem;
+	--radius-xl: 0.75rem;
+	--radius-2xl: 1rem;
+	--radius-full: 9999px;
+
+	--color-app-bg: var(--ln-app-bg);
+	--color-surface-bg: var(--ln-surface-bg);
+	--color-surface-elevated: var(--ln-surface-elevated);
+	--color-surface-subtle: var(--ln-surface-subtle);
+
+	--color-text-main: var(--ln-text-main);
+	--color-text-muted: var(--ln-text-muted);
+	--color-text-subtle: var(--ln-text-subtle);
+	--color-text-inverse: var(--ln-text-inverse);
+
+	--color-border-subtle: var(--ln-border-subtle);
+	--color-border-main: var(--ln-border-main);
+	--color-border-strong: var(--ln-border-strong);
+
+	--color-primary: var(--ln-primary);
+	--color-primary-hover: var(--ln-primary-hover);
+	--color-primary-fg: var(--ln-primary-fg);
+
+	--color-accent: var(--ln-accent);
+	--color-accent-hover: var(--ln-accent-hover);
+
+	--color-danger: var(--ln-danger);
+	--color-danger-fg: var(--ln-danger-fg);
+	--color-success: var(--ln-success);
+	--color-success-fg: var(--ln-success-fg);
+	--color-warning: var(--ln-warning);
+	--color-warning-fg: var(--ln-warning-fg);
+	--color-info: var(--ln-info);
+	--color-info-fg: var(--ln-info-fg);
+}
+
+/* Default Root (Light Theme + Comfortable Density) */
+:root {
+	/* Surfaces & Levels */
+	--ln-app-bg: #f8fafc;
+	--ln-surface-bg: #ffffff;
+	--ln-surface-elevated: #ffffff;
+	--ln-surface-subtle: #f1f5f9;
+
+	/* Typography & Foreground */
+	--ln-text-main: #0f172a;
+	--ln-text-muted: #64748b;
+	--ln-text-subtle: #94a3b8;
+	--ln-text-inverse: #ffffff;
+
+	/* Borders */
+	--ln-border-subtle: #e2e8f0;
+	--ln-border-main: #cbd5e1;
+	--ln-border-strong: #94a3b8;
+
+	/* Primary Brand / Accent */
+	--ln-primary: #4f46e5;
+	--ln-primary-hover: #4338ca;
+	--ln-primary-fg: #ffffff;
+
+	--ln-accent: #0284c7;
+	--ln-accent-hover: #0369a1;
+
+	/* Functional Statuses */
+	--ln-danger: #ef4444;
+	--ln-danger-fg: #ffffff;
+	--ln-success: #10b981;
+	--ln-success-fg: #ffffff;
+	--ln-warning: #f59e0b;
+	--ln-warning-fg: #ffffff;
+	--ln-info: #3b82f6;
+	--ln-info-fg: #ffffff;
+
+	/* Density Tokens */
+	--ln-spacing-unit: 0.25rem;
+	--ln-pad-y: 0.5rem;
+	--ln-pad-x: 0.75rem;
+	--ln-gap: 0.5rem;
+}
+
+/* Theme Presets */
+[data-theme="dark"] {
+	--ln-app-bg: #0f172a;
+	--ln-surface-bg: #1e293b;
+	--ln-surface-elevated: #334155;
+	--ln-surface-subtle: #1e293b;
+
+	--ln-text-main: #f8fafc;
+	--ln-text-muted: #94a3b8;
+	--ln-text-subtle: #64748b;
+	--ln-text-inverse: #0f172a;
+
+	--ln-border-subtle: #334155;
+	--ln-border-main: #475569;
+	--ln-border-strong: #64748b;
+
+	--ln-primary: #6366f1;
+	--ln-primary-hover: #818cf8;
+	--ln-primary-fg: #ffffff;
+
+	--ln-accent: #38bdf8;
+	--ln-accent-hover: #0ea5e9;
+
+	--ln-danger: #f87171;
+	--ln-success: #34d399;
+	--ln-warning: #fbbf24;
+	--ln-info: #60a5fa;
+}
+
+[data-theme="ocean"] {
+	--ln-app-bg: #0c1524;
+	--ln-surface-bg: #112238;
+	--ln-surface-elevated: #1b3252;
+	--ln-surface-subtle: #162b46;
+
+	--ln-text-main: #f0f9ff;
+	--ln-text-muted: #7dd3fc;
+	--ln-text-subtle: #38bdf8;
+	--ln-text-inverse: #0c1524;
+
+	--ln-border-subtle: #1e3a5f;
+	--ln-border-main: #2b4c7e;
+	--ln-border-strong: #3b82f6;
+
+	--ln-primary: #06b6d4;
+	--ln-primary-hover: #22d3ee;
+	--ln-primary-fg: #0c1524;
+
+	--ln-accent: #38bdf8;
+	--ln-accent-hover: #7dd3fc;
+}
+
+[data-theme="sunset"] {
+	--ln-app-bg: #181115;
+	--ln-surface-bg: #271a22;
+	--ln-surface-elevated: #3a2633;
+	--ln-surface-subtle: #2d1d27;
+
+	--ln-text-main: #fff1f2;
+	--ln-text-muted: #fda4af;
+	--ln-text-subtle: #f43f5e;
+	--ln-text-inverse: #181115;
+
+	--ln-border-subtle: #442a3a;
+	--ln-border-main: #5c374e;
+	--ln-border-strong: #e11d48;
+
+	--ln-primary: #f43f5e;
+	--ln-primary-hover: #fb7185;
+	--ln-primary-fg: #ffffff;
+
+	--ln-accent: #f97316;
+	--ln-accent-hover: #fb923c;
+}
+
+[data-theme="midnight"] {
+	--ln-app-bg: #030712;
+	--ln-surface-bg: #111827;
+	--ln-surface-elevated: #1f2937;
+	--ln-surface-subtle: #111827;
+
+	--ln-text-main: #f9fafb;
+	--ln-text-muted: #9ca3af;
+	--ln-text-subtle: #6b7280;
+	--ln-text-inverse: #030712;
+
+	--ln-border-subtle: #1f2937;
+	--ln-border-main: #374151;
+	--ln-border-strong: #4b5563;
+
+	--ln-primary: #8b5cf6;
+	--ln-primary-hover: #a78bfa;
+	--ln-primary-fg: #ffffff;
+
+	--ln-accent: #c084fc;
+	--ln-accent-hover: #e879f9;
+}
+
+[data-theme="glass"] {
+	--ln-app-bg: #0f172a;
+	--ln-surface-bg: rgba(30, 41, 59, 0.7);
+	--ln-surface-elevated: rgba(51, 65, 85, 0.85);
+	--ln-surface-subtle: rgba(255, 255, 255, 0.05);
+
+	--ln-text-main: #f8fafc;
+	--ln-text-muted: #cbd5e1;
+	--ln-text-subtle: #94a3b8;
+	--ln-text-inverse: #0f172a;
+
+	--ln-border-subtle: rgba(255, 255, 255, 0.1);
+	--ln-border-main: rgba(255, 255, 255, 0.2);
+	--ln-border-strong: rgba(255, 255, 255, 0.35);
+
+	--ln-primary: #38bdf8;
+	--ln-primary-hover: #7dd3fc;
+	--ln-primary-fg: #0f172a;
+
+	--ln-accent: #818cf8;
+	--ln-accent-hover: #a5b4fc;
+}
+
+/* Density Presets */
+[data-density="compact"] {
+	--ln-pad-y: 0.25rem;
+	--ln-pad-x: 0.5rem;
+	--ln-gap: 0.25rem;
+}
+
+[data-density="comfortable"] {
+	--ln-pad-y: 0.5rem;
+	--ln-pad-x: 0.75rem;
+	--ln-gap: 0.5rem;
+}
+
+[data-density="spacious"] {
+	--ln-pad-y: 0.75rem;
+	--ln-pad-x: 1rem;
+	--ln-gap: 0.75rem;
+}

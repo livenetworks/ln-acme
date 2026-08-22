@@ -1,0 +1,6 @@
+@import "tailwindcss" source(none);
+@import "./theme.css";
+
+@layer components {
+	@import "./components.css";
+}
